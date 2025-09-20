@@ -13,9 +13,7 @@ MediaStateMonitor sits in your macOS status bar and continuously monitors media 
 - **Podcast apps** (Overcast, Pocket Casts, etc.)
 - **Any media application** that uses system media controls
 
-Then it sends the media state as a binary sensor to Home Assistant. It creates one if there is not one already there.
-
-The binary sensor will be created with the entity ID `binary_sensor.mac_media_playing` and can be used in Home Assistant automations and dashboards. See the [Home Assistant binary sensor documentation](https://www.home-assistant.io/integrations/binary_sensor/) for more details.
+Then it sends the media state as a binary sensor to Home Assistant, specifically the `binary_sensor.mac_media_playing` entity. If it doesn’t already exist, it will create it.
 
 ## Features
 
