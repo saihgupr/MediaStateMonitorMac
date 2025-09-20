@@ -2,7 +2,7 @@
 
 ![MediaStateMonitor Screenshot](https://i.imgur.com/wr5PJA5.png)
 
-A macOS status bar application that monitors and displays the current media playback state on your Mac. This app provides real-time information about what music, video, or other media is currently playing across all applications and sends this data to Home Assistant as a binary sensor for smart home automation.
+This app provides real-time information about what music, video, or other media is currently playing across all applications and sends this data to Home Assistant as a binary sensor for smart home automation.
 
 ## What It Does
 
@@ -32,6 +32,10 @@ The app uses AppleScript integration to query the current media state and displa
 
 ## Installation
 
+### Option 1: Download from Releases (Recommended)
+Download the latest version from the [releases](https://github.com/saihgupr/MediaStateMonitorMac/releases) page and run the app directly.
+
+### Option 2: Build from Source
 1. Clone the repository:
    ```bash
    git clone https://github.com/saihgupr/MediaStateMonitorMac.git
