@@ -2,7 +2,7 @@
 
 ![MediaStateMonitor Screenshot](https://i.imgur.com/wr5PJA5.png)
 
-A macOS status bar application that monitors and displays the current media playback state on your Mac. This app provides real-time information about what music, video, or other media is currently playing across all applications.
+A macOS status bar application that monitors and displays the current media playback state on your Mac. This app provides real-time information about what music, video, or other media is currently playing across all applications and sends this data to Home Assistant as a binary sensor for smart home automation.
 
 ## What It Does
 
