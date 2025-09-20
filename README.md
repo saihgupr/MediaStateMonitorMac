@@ -19,6 +19,7 @@ The app uses AppleScript integration to query the current media state and displa
 
 - **Real-time media monitoring** - Detects what's playing across all apps
 - **Status bar integration** - Clean, unobtrusive status bar display
+- **Home Assistant integration** - Sends media state as a binary sensor to Home Assistant
 - **Auto-start capability** - Can be set to launch automatically on login
 - **System-wide detection** - Works with any media application
 - **Lightweight** - Minimal system resource usage
