@@ -177,6 +177,10 @@ class StatusBarController: ObservableObject {
         bearerToken = token
         saveSettings()
     }
+    
+    func quitApp() {
+        NSApplication.shared.terminate(nil)
+    }
 }
 
 struct PopoverView: View {
@@ -203,12 +207,19 @@ struct PopoverView: View {
                 Text("Media State Monitor")
                     .font(.headline)
                 Spacer()
-                Button("Settings") {
-                    tempURL = controller.homeAssistantURL
-                    tempToken = controller.bearerToken
-                    showingSettings = true
+                HStack(spacing: 12) {
+                    Button("Settings") {
+                        tempURL = controller.homeAssistantURL
+                        tempToken = controller.bearerToken
+                        showingSettings = true
+                    }
+                    .buttonStyle(.borderless)
+                    
+                    Button("Quit") {
+                        controller.quitApp()
+                    }
+                    .buttonStyle(.borderless)
                 }
-                .buttonStyle(.borderless)
             }
             
             Divider()
@@ -260,11 +271,12 @@ struct PopoverView: View {
                 
                 HStack {
                     Toggle("Open at Login", isOn: $controller.loginItemManager.isEnabled)
-                        .onChange(of: controller.loginItemManager.isEnabled) { newValue in
+                        .onChange(of: controller.loginItemManager.isEnabled) { _, newValue in
                             controller.loginItemManager.setLoginItem(enabled: newValue)
                         }
                     Spacer()
                 }
+                
             }
         }
     }

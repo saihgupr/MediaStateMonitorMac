@@ -1,5 +1,7 @@
 # MediaStateMonitorMac
 
+![MediaStateMonitorMac Screenshot](https://i.imgur.com/wr5PJA5.png)
+
 A macOS status bar application that monitors and displays the current media playback state on your Mac. This app provides real-time information about what music, video, or other media is currently playing across all applications.
 
 ## What It Does
