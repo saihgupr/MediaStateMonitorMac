@@ -1,12 +1,12 @@
-# MediaStateMonitorMac
+# MediaStateMonitor
 
-![MediaStateMonitorMac Screenshot](https://i.imgur.com/wr5PJA5.png)
+![MediaStateMonitor Screenshot](https://i.imgur.com/wr5PJA5.png)
 
 A macOS status bar application that monitors and displays the current media playback state on your Mac. This app provides real-time information about what music, video, or other media is currently playing across all applications.
 
 ## What It Does
 
-MediaStateMonitorMac sits in your macOS status bar and continuously monitors media playback across your system. It can detect and display information about:
+MediaStateMonitor sits in your macOS status bar and continuously monitors media playback across your system. It can detect and display information about:
 
 - **Currently playing music** (Spotify, Apple Music, iTunes, etc.)
 - **Video playback** (YouTube, Netflix, VLC, QuickTime, etc.)
@@ -36,7 +36,7 @@ The app uses AppleScript integration to query the current media state and displa
    git clone https://github.com/saihgupr/MediaStateMonitorMac.git
    ```
 
-2. Open `MediaStateMonitorMac.xcodeproj` in Xcode
+2. Open `MediaStateMonitor.xcodeproj` in Xcode
 
 3. Build and run the project (⌘+R)
 
@@ -44,7 +44,9 @@ The app uses AppleScript integration to query the current media state and displa
 
 ## Usage
 
-Once running, MediaStateMonitorMac will automatically detect and display information about any media currently playing on your system. Click the status bar icon to see current media information or access settings.
+![MediaStateMonitor Usage Screenshot](https://i.imgur.com/ICl6zVP.png)
+
+Once running, MediaStateMonitor will automatically detect and display information about any media currently playing on your system. Click the status bar icon to see current media information or access settings.
 
 ## Technical Details
 
