@@ -2,7 +2,7 @@
 
 ![MediaStateMonitor Screenshot](https://i.imgur.com/wr5PJA5.png)
 
-This app provides real-time information about what music, video, or other media is currently playing across all applications and sends this data to Home Assistant as a binary sensor for smart home automation.
+Get real-time information about what music, video, or other media is currently playing across all applications, and automatically sync this data to Home Assistant as a binary sensor for seamless smart home automation.
 
 ## What It Does
 
