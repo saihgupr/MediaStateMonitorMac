@@ -2,8 +2,6 @@
 //  ContentView.swift
 //  MediaStateMonitorMac
 //
-//  Created by Chris LaPointe on 9/5/25.
-//
 
 import SwiftUI
 import OSLog
