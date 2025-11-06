@@ -1,7 +1,4 @@
-//
-//  ContentView.swift
-//  MediaStateMonitorMac
-//
+
 
 import SwiftUI
 import OSLog
