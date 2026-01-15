@@ -1,0 +1,18 @@
+# Xcode
+#
+build/
+DerivedData/
+*.hmap
+*.ipa
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+
+# Personal Xcode settings
+MediaStateMonitorMac.xcodeproj/xcuserdata/
+MediaStateMonitorMac.xcodeproj/project.xcworkspace/xcuserdata/
+
+# OS X
+#
+.DS_Store
+profile
