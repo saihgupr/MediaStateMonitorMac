@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  MediaStateMonitorMac
 //
-//  Created by Chris LaPointe on 9/5/25.
+//  Created on 9/5/25.
 //
 
 import Cocoa
