@@ -18,6 +18,7 @@ Then it sends the media state as a binary sensor to Home Assistant, specifically
 ## Features
 
 - **Real-time media monitoring** - Detects what's playing across all apps
+- **CLI media controls** - Control playback remotely via command-line interface
 - **Status bar integration** - Clean, unobtrusive status bar display
 - **Home Assistant integration** - Sends media state as a binary sensor to Home Assistant
 - **Auto-start capability** - Can be set to launch automatically on login
@@ -52,6 +53,37 @@ Download the latest version from the [releases](https://github.com/saihgupr/Medi
 ![MediaStateMonitor Usage Screenshot](https://i.imgur.com/ICl6zVP.png)
 
 Once running, MediaStateMonitor will automatically detect and display information about any media currently playing on your system. Click the status bar icon to see current media information or access settings.
+
+## CLI Media Controls
+
+Control your Mac's media playback remotely using the included `mediactl` command-line tool.
+
+### Available Commands
+
+```bash
+./mediactl play         # Resume playback
+./mediactl pause        # Pause playback
+./mediactl playPause    # Toggle play/pause
+./mediactl next         # Skip to next track
+./mediactl previous     # Go to previous track
+```
+
+### Installation for System-Wide Access
+
+To use `mediactl` from anywhere in your terminal:
+
+```bash
+sudo cp mediactl /usr/local/bin/
+```
+
+Then you can simply run:
+
+```bash
+mediactl play
+mediactl next
+```
+
+The CLI controls work with any media application that responds to macOS system media keys.
 
 ## Technical Details
 

@@ -13,6 +13,9 @@ class StatusBarController: ObservableObject {
     private var lastPlayingState = false
     private var statusBarItem: NSStatusItem?
     private var popover: NSPopover?
+    private var mediaController = MediaController()
+    private var commandWatcher: DispatchSourceFileSystemObject?
+    private let commandFilePath: String
     
     @Published var currentMediaInfo = "Loading..."
     @Published var isPlaying = false
@@ -22,9 +25,17 @@ class StatusBarController: ObservableObject {
     
     init() {
         print("StatusBarController: init called")
+        
+        // Setup command file path
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let appDir = appSupport.appendingPathComponent("MediaStateMonitor")
+        try? FileManager.default.createDirectory(at: appDir, withIntermediateDirectories: true)
+        commandFilePath = appDir.appendingPathComponent("commands.txt").path
+        
         loadSettings()
         setupStatusBar()
         startPeriodicUpdates()
+        startCommandWatcher()
         print("StatusBarController: setup complete")
     }
     
@@ -178,7 +189,63 @@ class StatusBarController: ObservableObject {
         saveSettings()
     }
     
+    private func startCommandWatcher() {
+        // Create command file if it doesn't exist
+        if !FileManager.default.fileExists(atPath: commandFilePath) {
+            FileManager.default.createFile(atPath: commandFilePath, contents: nil)
+        }
+        
+        // Setup file watcher
+        let fileDescriptor = open(commandFilePath, O_EVTONLY)
+        guard fileDescriptor >= 0 else {
+            print("Failed to open command file for watching")
+            return
+        }
+        
+        let queue = DispatchQueue(label: "com.mediastatemonitor.commandwatcher")
+        commandWatcher = DispatchSource.makeFileSystemObjectSource(
+            fileDescriptor: fileDescriptor,
+            eventMask: .write,
+            queue: queue
+        )
+        
+        commandWatcher?.setEventHandler { [weak self] in
+            self?.processCommandFile()
+        }
+        
+        commandWatcher?.setCancelHandler {
+            close(fileDescriptor)
+        }
+        
+        commandWatcher?.resume()
+        print("Command watcher started at: \(commandFilePath)")
+    }
+    
+    private func processCommandFile() {
+        guard let content = try? String(contentsOfFile: commandFilePath, encoding: .utf8) else {
+            return
+        }
+        
+        let command = content.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !command.isEmpty else { return }
+        
+        print("Received command: \(command)")
+        
+        // Clear the file
+        try? "".write(toFile: commandFilePath, atomically: true, encoding: .utf8)
+        
+        // Execute the command
+        DispatchQueue.main.async { [weak self] in
+            if let mediaCommand = MediaController.MediaCommand(rawValue: command) {
+                self?.mediaController.execute(mediaCommand)
+            } else {
+                print("Unknown command: \(command)")
+            }
+        }
+    }
+    
     func quitApp() {
+        commandWatcher?.cancel()
         NSApplication.shared.terminate(nil)
     }
 }

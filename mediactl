@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# mediactl - Media control CLI for MediaStateMonitor
+# Usage: mediactl [play|pause|playpause|next|previous]
+
+COMMAND_FILE="$HOME/Library/Application Support/MediaStateMonitor/commands.txt"
+
+# Check if command was provided
+if [ $# -eq 0 ]; then
+    echo "Usage: mediactl [play|pause|playpause|next|previous]"
+    exit 1
+fi
+
+COMMAND="$1"
+
+# Validate command
+case "$COMMAND" in
+    play|pause|playPause|next|previous)
+        ;;
+    *)
+        echo "Error: Invalid command '$COMMAND'"
+        echo "Valid commands: play, pause, playPause, next, previous"
+        exit 1
+        ;;
+esac
+
+# Ensure directory exists
+mkdir -p "$(dirname "$COMMAND_FILE")"
+
+# Write command to file
+echo "$COMMAND" > "$COMMAND_FILE"
+
+echo "Sent command: $COMMAND"
