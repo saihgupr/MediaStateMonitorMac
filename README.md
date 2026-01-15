@@ -63,7 +63,7 @@ Control your Mac's media playback remotely using the included `mediactl` command
 ```bash
 ./mediactl play         # Resume playback
 ./mediactl pause        # Pause playback
-./mediactl playPause    # Toggle play/pause
+./mediactl playpause     # Toggle play/pause
 ./mediactl next         # Skip to next track
 ./mediactl previous     # Go to previous track
 ```

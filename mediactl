@@ -27,11 +27,11 @@ fi
 
 # Validate command
 case "$COMMAND" in
-    play|pause|playPause|next|previous)
+    play|pause|playpause|next|previous)
         ;;
     *)
         echo "Error: Invalid command '$COMMAND'"
-        echo "Valid commands: play, pause, playPause, next, previous, status"
+        echo "Valid commands: play, pause, playpause, next, previous, status"
         exit 1
         ;;
 esac

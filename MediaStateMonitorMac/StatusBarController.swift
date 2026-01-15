@@ -269,12 +269,14 @@ struct PopoverView: View {
                         tempToken = controller.bearerToken
                         showingSettings = true
                     }
-                    .buttonStyle(.borderless)
+                    .buttonStyle(PlainButtonStyle())
+                    .focusable(false)
                     
                     Button("Quit") {
                         controller.quitApp()
                     }
-                    .buttonStyle(.borderless)
+                    .buttonStyle(PlainButtonStyle())
+                    .focusable(false)
                 }
             }
             
@@ -305,7 +307,8 @@ struct PopoverView: View {
                     controller.updateSettings(url: tempURL, token: tempToken)
                     showingSettings = false
                 }
-                .buttonStyle(.borderless)
+                .buttonStyle(PlainButtonStyle())
+                .focusable(false)
             }
             
             Divider()

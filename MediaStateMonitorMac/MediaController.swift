@@ -12,7 +12,7 @@ class MediaController {
     enum MediaCommand: String {
         case play
         case pause
-        case playPause
+        case playpause
         case next
         case previous
     }
@@ -58,7 +58,7 @@ class MediaController {
         switch command {
         case .play: mrCommand = kMRPlay
         case .pause: mrCommand = kMRPause
-        case .playPause: mrCommand = kMRTogglePlayPause
+        case .playpause: mrCommand = kMRTogglePlayPause
         case .next: mrCommand = kMRNextTrack
         case .previous: mrCommand = kMRPreviousTrack
         }
