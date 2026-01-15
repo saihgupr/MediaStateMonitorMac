@@ -1,17 +1,29 @@
 #!/bin/bash
 
 # mediactl - Media control CLI for MediaStateMonitor
-# Usage: mediactl [play|pause|playpause|next|previous]
+# Usage: mediactl [play|pause|playpause|next|previous|status]
 
 COMMAND_FILE="$HOME/Library/Application Support/MediaStateMonitor/commands.txt"
+STATUS_FILE="$HOME/Library/Application Support/MediaStateMonitor/status.txt"
 
 # Check if command was provided
 if [ $# -eq 0 ]; then
-    echo "Usage: mediactl [play|pause|playpause|next|previous]"
+    echo "Usage: mediactl [play|pause|playpause|next|previous|status]"
     exit 1
 fi
 
 COMMAND="$1"
+
+# Handle status command separately
+if [ "$COMMAND" = "status" ]; then
+    if [ -f "$STATUS_FILE" ]; then
+        cat "$STATUS_FILE"
+    else
+        echo "Status not available. Is MediaStateMonitor running?"
+        exit 1
+    fi
+    exit 0
+fi
 
 # Validate command
 case "$COMMAND" in
@@ -19,7 +31,7 @@ case "$COMMAND" in
         ;;
     *)
         echo "Error: Invalid command '$COMMAND'"
-        echo "Valid commands: play, pause, playPause, next, previous"
+        echo "Valid commands: play, pause, playPause, next, previous, status"
         exit 1
         ;;
 esac

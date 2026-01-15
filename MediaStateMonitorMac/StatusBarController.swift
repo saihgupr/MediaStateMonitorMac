@@ -10,12 +10,13 @@ import AppKit
 
 class StatusBarController: ObservableObject {
     private var timer: Timer?
+    private var commandTimer: Timer?
     private var lastPlayingState = false
     private var statusBarItem: NSStatusItem?
     private var popover: NSPopover?
     private var mediaController = MediaController()
-    private var commandWatcher: DispatchSourceFileSystemObject?
     private let commandFilePath: String
+    private let statusFilePath: String
     
     @Published var currentMediaInfo = "Loading..."
     @Published var isPlaying = false
@@ -31,6 +32,7 @@ class StatusBarController: ObservableObject {
         let appDir = appSupport.appendingPathComponent("MediaStateMonitor")
         try? FileManager.default.createDirectory(at: appDir, withIntermediateDirectories: true)
         commandFilePath = appDir.appendingPathComponent("commands.txt").path
+        statusFilePath = appDir.appendingPathComponent("status.txt").path
         
         loadSettings()
         setupStatusBar()
@@ -97,8 +99,12 @@ class StatusBarController: ObservableObject {
         UserDefaults.standard.set(bearerToken, forKey: "bearerToken")
     }
     
+    private func updateStatusFile() {
+        try? currentMediaInfo.write(toFile: statusFilePath, atomically: true, encoding: .utf8)
+    }
+    
     private func startPeriodicUpdates() {
-        timer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { _ in
             self.updateMediaInfo()
         }
         updateMediaInfo() // Initial update
@@ -126,6 +132,7 @@ class StatusBarController: ObservableObject {
                     self.currentMediaInfo = output
                     self.isPlaying = output.hasPrefix("Playing:")
                     self.updateStatusBarIcon()
+                    self.updateStatusFile()
                     
                     // Only send to Home Assistant if state changed
                     if wasPlaying != self.isPlaying {
@@ -138,6 +145,7 @@ class StatusBarController: ObservableObject {
                     self.currentMediaInfo = "Error: \(error.localizedDescription)"
                     self.isPlaying = false
                     self.updateStatusBarIcon()
+                    self.updateStatusFile()
                     
                     // Only send to Home Assistant if state changed
                     if wasPlaying != self.isPlaying {
@@ -195,29 +203,10 @@ class StatusBarController: ObservableObject {
             FileManager.default.createFile(atPath: commandFilePath, contents: nil)
         }
         
-        // Setup file watcher
-        let fileDescriptor = open(commandFilePath, O_EVTONLY)
-        guard fileDescriptor >= 0 else {
-            print("Failed to open command file for watching")
-            return
-        }
-        
-        let queue = DispatchQueue(label: "com.mediastatemonitor.commandwatcher")
-        commandWatcher = DispatchSource.makeFileSystemObjectSource(
-            fileDescriptor: fileDescriptor,
-            eventMask: .write,
-            queue: queue
-        )
-        
-        commandWatcher?.setEventHandler { [weak self] in
+        // Setup timer to check for commands every 0.5 seconds
+        commandTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.processCommandFile()
         }
-        
-        commandWatcher?.setCancelHandler {
-            close(fileDescriptor)
-        }
-        
-        commandWatcher?.resume()
         print("Command watcher started at: \(commandFilePath)")
     }
     
@@ -245,7 +234,7 @@ class StatusBarController: ObservableObject {
     }
     
     func quitApp() {
-        commandWatcher?.cancel()
+        commandTimer?.invalidate()
         NSApplication.shared.terminate(nil)
     }
 }
